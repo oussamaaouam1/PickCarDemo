@@ -1,12 +1,20 @@
-import React,{useState,useEffect} from "react";
-import { View, StyleSheet, Text,TouchableOpacity,Animated,Button,Image,TextInput,Alert} from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Animated,
+  Image,
+  TextInput,
+  Alert,
+} from "react-native";
 
 export default function LogInScreen({ navigation }) {
   const [activeTab, setActiveTab] = useState("login");
 
   const underlineWidth = new Animated.Value(activeTab === "login" ? 0 : 100); // Animation width
   const underlineHeight = new Animated.Value(activeTab === "login" ? 3 : 1);
-
 
   useEffect(() => {
     // Animate the underline width when activeTab changes
@@ -15,8 +23,6 @@ export default function LogInScreen({ navigation }) {
       duration: 400, // Duration of the animation in ms
       useNativeDriver: false,
     }).start();
-
-    
   }, [activeTab]);
 
   //-------------------form submission------------------
@@ -27,12 +33,18 @@ export default function LogInScreen({ navigation }) {
     if (!email || !password) {
       Alert.alert("Error", "Both fields are required!");
     } else {
-      Alert.alert("Success", `Email: ${email}\nPassword: ${'*'.repeat(password.length)}`);
+      Alert.alert(
+        "Success",
+        `Email: ${email}\nPassword: ${"*".repeat(password.length)}`
+      );
     }
-  }
+  };
 
   const handlePress = () => {
-    Alert.alert("Forget Password ?", "Confirmation message will be sent to your Email !");
+    Alert.alert(
+      "Forget Password ?",
+      "Confirmation message will be sent to your Email !"
+    );
   };
   return (
     <View style={styles.container}>
@@ -112,7 +124,7 @@ export default function LogInScreen({ navigation }) {
         <Text style={styles.buttonText2}>Continue with Facebook</Text>
       </TouchableOpacity>
 
-      {/*-----------------------------facebook button---------------------------------- */}
+      {/*-----------------------------Apple button---------------------------------- */}
       <TouchableOpacity style={styles.button2}>
         <View style={styles.icon2}>
           <Image
@@ -121,8 +133,10 @@ export default function LogInScreen({ navigation }) {
           />
         </View>
 
-        <Text style={styles.buttonText2}>Continue with Facebook</Text>
+        <Text style={styles.buttonText2}>Continue with Apple</Text>
       </TouchableOpacity>
+      {/*-----------------------------separator---------------------------------- */}
+
       <View style={styles.separator}>
         <View style={styles.line} />
         <Text style={styles.text}>or</Text>
@@ -150,9 +164,9 @@ export default function LogInScreen({ navigation }) {
       <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
         <Text style={styles.buttonText}>Log in</Text>
       </TouchableOpacity>
-      <Text style={styles.forget}
-      onPress={handlePress}
-      >Forget Password ?</Text>
+      <Text style={styles.forget} onPress={handlePress}>
+        Forget Password ?
+      </Text>
     </View>
   );
 }
@@ -179,7 +193,7 @@ const styles = StyleSheet.create({
     color: "black",
   },
   activeText: {
-    color: "#46B9B0", 
+    color: "#46B9B0",
   },
   underline: {
     backgroundColor: "#46B9B0",
@@ -274,27 +288,26 @@ const styles = StyleSheet.create({
     height: 50,
     borderColor: "#ccc",
     borderWidth: 1,
-    borderRadius:10 ,
+    borderRadius: 10,
     paddingHorizontal: 10,
     marginBottom: 15,
-    width:'80%',
+    width: "80%",
   },
   submitButton: {
     backgroundColor: "#46B9B0",
     paddingVertical: 15,
     borderRadius: 5,
     alignItems: "center",
-    width:'80%',
-    marginBottom:20,
-
+    width: "80%",
+    marginBottom: 20,
   },
   buttonText: {
     color: "white",
     fontSize: 18,
     fontWeight: "bold",
   },
-  forget:{
-    color:'#ccc',
-    marginBottom:80,
-  }
+  forget: {
+    color: "#ccc",
+    marginBottom: 80,
+  },
 });

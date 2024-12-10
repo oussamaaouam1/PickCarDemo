@@ -3,11 +3,14 @@ import { Button } from "react-native-paper";
 import { View, StyleSheet, Text } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { Image } from "react-native";
-
-
+import { useEffect } from "react";
+import CarIcon from "../assets/SVGs/City driver-rafiki.svg"
+// import BottomTabNavigator from "../components/BottomTabNavigator";
 
 export default function HomeScreen({ navigation }) {
-
+  useEffect(() => {
+    navigation.navigate("Tabs");
+  }, [navigation]);
   return (
     <View style={styles.container}>
       <Text
@@ -16,19 +19,20 @@ export default function HomeScreen({ navigation }) {
           fontSize: 24,
           marginVertical: 50,
           marginTop: 0,
-          marginBottom: 100,
+          marginBottom: 0,
         }}
       >
         Pick car
       </Text>
-      <Image
+      {/* <Image
         source={require("../assets/draws/undraw_order_ride.jpg")}
         style={{ marginHorizontal: 20 }}
-      />
+      /> */}
+      <CarIcon width={400} height={400} />  
       <Text
         style={{
           fontSize: 24,
-          marginTop: 30,
+          marginTop: 0,
           fontWeight: "bold",
           marginBottom: 10,
         }}
@@ -40,7 +44,7 @@ export default function HomeScreen({ navigation }) {
           fontSize: 15,
           marginVertical: 50,
           marginTop: 0,
-          marginBottom:200,
+          marginBottom: 50,
         }}
       >
         reach your car in easy way and every where
@@ -65,6 +69,10 @@ export default function HomeScreen({ navigation }) {
       >
         <Text style={styles.submitText}>Sign up</Text>
       </Button>
+
+      {/* <View style={styles.bottomTabContainer}>
+        <BottomTabNavigator />
+      </View> */}
 
       <StatusBar style="auto" />
     </View>
@@ -91,5 +99,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontFamily: "btnfont",
     letterSpacing: 4,
+  },
+  bottomTabContainer: {
+    width: "100%",
+    position: "absolute",
+    bottom: 0,
   },
 });

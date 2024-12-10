@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "react-native";
-import { View, StyleSheet, Text } from "react-native";
-import { StatusBar } from "expo-status-bar";
+import { View, StyleSheet, Text,TouchableOpacity } from "react-native";
+import { SearchBar } from "react-native-screens";
 
 
 
@@ -10,17 +10,21 @@ export default function MainScreen({navigation}) {
 
   return (
     <View style={styles.container}>
-      <Text>test navigation to MainScreen </Text>
+      <View style={styles.Searchbar}>
+        <View>
+          <TouchableOpacity>
+            <Ionicons name="location-outline" size={24} color="#46B9B0" />
+            <Text style={styles.text}>Where?</Text>
+          </TouchableOpacity>
+        </View>
 
-      <Button
-        title="Go to HomeScreen"
-        onPress={() => {
-          navigation.navigate("HomeScreen");
-        }}
-      >
-        HomeScreen
-      </Button>
-      <StatusBar style="auto" />
+        <View style={styles.devider}>
+          <TouchableOpacity>
+            <Ionicons name="calendar-outline" size={24} color="#46B9B0" />
+            <Text style={styles.text}>Where?</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </View>
   );
 }
@@ -32,4 +36,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  SearchBar:{
+    display:"flex",
+    flexDirection:"row",
+    alignContent:"center",
+    justifyContent:"space-between",
+    padding:15,
+    
+    
+  }
 });

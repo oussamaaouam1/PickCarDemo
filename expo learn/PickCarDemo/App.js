@@ -4,9 +4,11 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import HomeScreen from "./Screens/HomeScreen";
 import MainScreen from "./Screens/MainScreen";
+import Account from "./Screens/LogAndSign";
 import { useFonts } from "expo-font";
 import LogInScreen from "./Screens/LogInScreen";
 import SignUpScreen from "./Screens/SignUpScreen";
+import BottomTabNavigator from "./components/BottomTabNavigator";
 
 
 
@@ -28,10 +30,31 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="HomeScreen" component={HomeScreen} />
-        <Stack.Screen name="MainScreen" component={MainScreen} />
-        <Stack.Screen name="LogInScreen" component={LogInScreen} />
-        <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+        <Stack.Screen
+          name="HomeScreen"
+          component={HomeScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Account"
+          component={Account}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="LogInScreen"
+          component={LogInScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="SignUpScreen"
+          component={SignUpScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Tabs"
+          component={BottomTabNavigator}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );  
