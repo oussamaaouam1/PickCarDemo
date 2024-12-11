@@ -4,6 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import HomeScreen from "../Screens/HomeScreen";
 import LogInScreen from "../Screens/LogInScreen";
 import Account from "../Screens/LogAndSign";
+import SignUpScreen from "../Screens/SignUpScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -16,6 +17,9 @@ const BottomTabNavigator = () => {
           backgroundColor: "#ffffff",
           borderTopWidth: 1,
           borderTopColor: "#ccc",
+          //hide in homeScreen
+          backgroundColor: route.name === "Home" ? "transparent" : "#ffffff",
+          display: route.name === "Home" ? "none" : "flex",
         },
         tabBarLabelStyle: {
           fontSize: 12,
@@ -35,9 +39,13 @@ const BottomTabNavigator = () => {
         tabBarInactiveTintColor: "gray",
       })}
     >
-      <Tab.Screen name="Home" component={HomeScreen} options={{headerShown:false}}/>
-      <Tab.Screen name= "Profile" component={Account}/>
-      
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ headerShown: false }}
+      />
+      <Tab.Screen name="Profile" component={Account} />
+
       {/* Add additional screens here */}
     </Tab.Navigator>
   );

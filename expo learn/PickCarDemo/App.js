@@ -29,7 +29,7 @@ export default function App() {
   }
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator options={{ headerShown: false }}>
         <Stack.Screen
           name="HomeScreen"
           component={HomeScreen}
