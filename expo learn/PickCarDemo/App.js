@@ -8,6 +8,7 @@ import Account from "./Screens/LogAndSign";
 import { useFonts } from "expo-font";
 import LogInScreen from "./Screens/LogInScreen";
 import SignUpScreen from "./Screens/SignUpScreen";
+import EmailSignUp from "./Screens/EmailSignUp";
 import BottomTabNavigator from "./components/BottomTabNavigator";
 
 
@@ -49,6 +50,18 @@ export default function App() {
           name="SignUpScreen"
           component={SignUpScreen}
           options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="EmailSignUp"
+          component={EmailSignUp}
+          options={{
+            headerTitle: "Sign up with email",
+            headerTitleStyle: {
+              color: "#46B9B0", // Set text color
+              fontWeight: "bold",
+              fontFamily: "btnfont",
+            },
+          }}
         />
         <Stack.Screen
           name="Tabs"

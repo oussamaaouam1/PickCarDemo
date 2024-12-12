@@ -122,7 +122,11 @@ return (
       <View style={styles.line} />
     </View>
     {/*-----------------------------Email signUp---------------------------------- */}
-    <TouchableOpacity style={styles.EmailButton}>
+    <TouchableOpacity
+      style={styles.EmailButton}
+      
+      onPress={() => navigation.navigate("EmailSignUp")}
+    >
       <View style={styles.icon}>
         <Image
           source={require("../assets/icons/email.png")}
