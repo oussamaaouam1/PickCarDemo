@@ -11,6 +11,7 @@ import {
 } from "react-native";
 
 export default function LogInScreen({ navigation }) {
+  
   const [activeTab, setActiveTab] = useState("login");
 
   const underlineWidth = new Animated.Value(activeTab === "login" ? 0 : 100); // Animation width
@@ -102,7 +103,10 @@ export default function LogInScreen({ navigation }) {
       </View>
       <Text style={styles.TextLog}>Log in to your account</Text>
       {/*-----------------------------google button---------------------------------- */}
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button}
+      onPress={()=>{
+        navigation.navigate("MainScreen")
+      }}>
         <View style={styles.icon}>
           <Image
             source={require("../assets/icons/google.png")}

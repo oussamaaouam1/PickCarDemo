@@ -20,9 +20,13 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
 
+
+
   const [loadFonts] = useFonts({
     "Merase-font" : require("./assets/fonts/Merase.ttf"),
-    "btnfont" : require("./assets/fonts/PlusJakartaSans-VariableFont_wght.ttf")
+    "btnfont" : require("./assets/fonts/PlusJakartaSans-VariableFont_wght.ttf"),
+    "Mina" : require("./assets/fonts/Mina-Regular.ttf")
+
 
   });
   if (!loadFonts){ //show up waiting animation while loading the font
@@ -30,45 +34,8 @@ export default function App() {
   }
   return (
     <NavigationContainer>
-      <Stack.Navigator options={{ headerShown: false }}>
-        <Stack.Screen
-          name="HomeScreen"
-          component={HomeScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Account"
-          component={Account}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="LogInScreen"
-          component={LogInScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="SignUpScreen"
-          component={SignUpScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="EmailSignUp"
-          component={EmailSignUp}
-          options={{
-            headerTitle: "Sign up with email",
-            headerTitleStyle: {
-              color: "#46B9B0", // Set text color
-              fontWeight: "bold",
-              fontFamily: "btnfont",
-            },
-          }}
-        />
-        <Stack.Screen
-          name="Tabs"
-          component={BottomTabNavigator}
-          options={{ headerShown: false }}
-        />
-      </Stack.Navigator>
+      <BottomTabNavigator/>
+      
     </NavigationContainer>
   );  
 }

@@ -4,6 +4,7 @@ import { View, StyleSheet, Text,TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function Account({ navigation }) {
+  
   return (
     <View style={styles.container}>
       {/* {/---------------* log in button *-------------------/} */}

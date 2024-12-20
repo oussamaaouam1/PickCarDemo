@@ -8,6 +8,8 @@ import CarIcon2 from "../assets/SVGs/Car finance-pana.svg";
 import Scroll1 from "../assets/verticalScroll/scroll 1.svg";
 import Scroll2 from "../assets/verticalScroll/scroll 2.svg";
 import Scroll3 from "../assets/verticalScroll/scroll 3.svg";
+import { useEffect } from "react";
+import BottomTabNavigator from "../components/BottomTabNavigator";
 
 const { width, height } = Dimensions.get("window");
 
@@ -71,7 +73,6 @@ export default function HomeScreen({ navigation }) {
       >
         <Text style={styles.submitText}>Sign Up</Text>
       </Button>
-
       <StatusBar style="auto" />
     </View>
   );
