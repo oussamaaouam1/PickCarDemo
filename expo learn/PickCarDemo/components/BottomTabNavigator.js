@@ -1,17 +1,13 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
-import HomeScreen from "../Screens/HomeScreen";
-import LogInScreen from "../Screens/LogInScreen";
-import Account from "../Screens/LogAndSign";
-import MainScreen from "../Screens/MainScreen";
 
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import HomeScreen from "../Screens/HomeScreen";
+import MainScreen from "../Screens/MainScreen";
+import Account from "../Screens/LogAndSign";
 
 
 const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
-
 
 const BottomTabNavigator = () => {
   return (
@@ -22,9 +18,6 @@ const BottomTabNavigator = () => {
           backgroundColor: "#ffffff",
           borderTopWidth: 1,
           borderTopColor: "#ccc",
-          //hide in homeScreen
-          // backgroundColor: route.name === "Home" ? "transparent" : "#ffffff",
-          // display: route.name === "Home" ? "none" : "flex",
         },
         tabBarLabelStyle: {
           fontSize: 12,
@@ -35,8 +28,8 @@ const BottomTabNavigator = () => {
             iconName = "search-outline";
           } else if (route.name === "Account") {
             iconName = "person-circle-outline";
-          } else if (route.name === "Settings") {
-            iconName = "settings-outline";
+          } else if (route.name === "Home") {
+            iconName = "home-outline";
           }
           return <Ionicons name={iconName} size={size} color={color} />;
         },
@@ -45,11 +38,11 @@ const BottomTabNavigator = () => {
       })}
     >
       <Tab.Screen
-        name="HomeScreen"
+        name="Home"
         component={HomeScreen}
         options={{
           headerShown: false,
-          tabBarStyle: { display: "none" },
+          tabBarStyle: { display: "none" }, // Hides the bottom tab
         }}
       />
       <Tab.Screen
@@ -58,17 +51,20 @@ const BottomTabNavigator = () => {
         options={{ headerShown: false }}
       />
       <Tab.Screen
-        name="LogInScreen"
-        component={LogInScreen}
-        options={{ headerShown: false }}
-      />
-      <Tab.Screen
         name="Account"
         component={Account}
         options={{ headerShown: false }}
       />
-
-      {/* Add additional screens here */}
+      {/* <Tab.Screen
+        name="SignUpScreen"
+        component={SignUpScreen}
+        options={{ headerShown: false }}
+      />
+      <Tab.Screen
+        name="LogInScreen"
+        component={LogInScreen}
+        options={{ headerShown: false }}
+      /> */}
     </Tab.Navigator>
   );
 };

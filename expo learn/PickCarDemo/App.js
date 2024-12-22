@@ -1,50 +1,53 @@
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
-import HomeScreen from "./Screens/HomeScreen";
-import MainScreen from "./Screens/MainScreen";
-import Account from "./Screens/LogAndSign";
+import { ActivityIndicator, StyleSheet } from "react-native";
 import { useFonts } from "expo-font";
+
+import BottomTabNavigator from "./components/BottomTabNavigator";
 import LogInScreen from "./Screens/LogInScreen";
 import SignUpScreen from "./Screens/SignUpScreen";
 import EmailSignUp from "./Screens/EmailSignUp";
-import BottomTabNavigator from "./components/BottomTabNavigator";
-
-
+import HomeScreen from "./Screens/HomeScreen";
+import MainScreen from "./Screens/MainScreen";
 
 const Stack = createNativeStackNavigator();
 
-
-
-
 export default function App() {
-
-
-
   const [loadFonts] = useFonts({
-    "Merase-font" : require("./assets/fonts/Merase.ttf"),
-    "btnfont" : require("./assets/fonts/PlusJakartaSans-VariableFont_wght.ttf"),
-    "Mina" : require("./assets/fonts/Mina-Regular.ttf")
-
-
+    "Merase-font": require("./assets/fonts/Merase.ttf"),
+    btnfont: require("./assets/fonts/PlusJakartaSans-VariableFont_wght.ttf"),
+    Mina: require("./assets/fonts/Mina-Regular.ttf"),
   });
-  if (!loadFonts){ //show up waiting animation while loading the font
-  return<ActivityIndicator size="large"/>;
+
+  if (!loadFonts) {
+    // Show loading animation while fonts are being loaded
+    return <ActivityIndicator size="large" style={styles.loading} />;
   }
+
   return (
     <NavigationContainer>
-      <BottomTabNavigator/>
-      
+      <Stack.Navigator
+        initialRouteName="Tabs"
+        screenOptions={{ headerShown: false }}
+      >
+        {/* Main Bottom Tabs */}
+        <Stack.Screen name="Tabs" component={BottomTabNavigator} />
+
+        {/* Additional Stack Screens */}
+        <Stack.Screen name="LogInScreen" component={LogInScreen} />
+        <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+        <Stack.Screen name="EmailSignUp" component={EmailSignUp} />
+        <Stack.Screen name="MainScreen" component={MainScreen} />
+      </Stack.Navigator>
     </NavigationContainer>
-  );  
+  );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  loading: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
     justifyContent: "center",
+    alignItems: "center",
   },
 });

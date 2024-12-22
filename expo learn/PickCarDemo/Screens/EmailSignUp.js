@@ -1,8 +1,15 @@
 import React from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { Checkbox } from "react-native-paper";
+import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
 
 const validationSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -24,6 +31,16 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function EmailSignUp({ navigation }) {
+  // Function to save data into AsyncStorage
+  const saveToAsyncStorage = async (data) => {
+    try {
+      await AsyncStorage.setItem("userData", JSON.stringify(data));
+      alert("Data saved successfully!");
+    } catch (error) {
+      console.error("Error saving data to AsyncStorage:", error);
+    }
+  };
+
   return (
     <Formik
       initialValues={{
@@ -36,7 +53,7 @@ export default function EmailSignUp({ navigation }) {
       validationSchema={validationSchema}
       onSubmit={(values) => {
         console.log(values);
-        alert("Form submitted successfully!");
+        saveToAsyncStorage(values); // Save the form data
       }}
     >
       {({
