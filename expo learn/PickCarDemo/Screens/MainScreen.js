@@ -15,7 +15,9 @@ export default function MainScreen({navigation}) {
     <View style={styles.container}>
       <View style={styles.SearchBar}>
         <View>
-          <TouchableOpacity style={styles.searchbox}>
+          <TouchableOpacity style={styles.searchbox}
+          onPress={()=>{navigation.navigate("LocationSearch")}}
+          >
             <Ionicons name="location-outline" size={20} color="#46B9B0" />
             <Text style={styles.text}>Where?</Text>
           </TouchableOpacity>

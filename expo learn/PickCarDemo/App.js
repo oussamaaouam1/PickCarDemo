@@ -4,12 +4,16 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ActivityIndicator, StyleSheet } from "react-native";
 import { useFonts } from "expo-font";
 
+
 import BottomTabNavigator from "./components/BottomTabNavigator";
 import LogInScreen from "./Screens/LogInScreen";
 import SignUpScreen from "./Screens/SignUpScreen";
 import EmailSignUp from "./Screens/EmailSignUp";
 import HomeScreen from "./Screens/HomeScreen";
 import MainScreen from "./Screens/MainScreen";
+import LocationSearch from "./Screens/LocationSearch";
+import { StatusBar } from "expo-status-bar";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -26,6 +30,7 @@ export default function App() {
   }
 
   return (
+    
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="Tabs"
@@ -39,6 +44,9 @@ export default function App() {
         <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
         <Stack.Screen name="EmailSignUp" component={EmailSignUp} />
         <Stack.Screen name="MainScreen" component={MainScreen} />
+        <Stack.Screen name="LocationSearch" component={LocationSearch} /> 
+        
+
       </Stack.Navigator>
     </NavigationContainer>
   );

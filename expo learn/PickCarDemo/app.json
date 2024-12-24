@@ -39,6 +39,15 @@
         "wasm",
         "svg"
       ]
-    }
+    },
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow PICKCAR to use your location."
+        }
+      ]
+    ]
+    
   }
 }

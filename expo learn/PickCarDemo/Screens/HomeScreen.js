@@ -85,6 +85,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: height * 0.05,
+    
   },
   title: {
     fontFamily: "Merase-font",
