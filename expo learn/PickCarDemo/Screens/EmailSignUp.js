@@ -9,8 +9,9 @@ import {
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { Checkbox } from "react-native-paper";
-import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
+// Validation schema for the form
 const validationSchema = Yup.object().shape({
   firstName: Yup.string()
     .min(3, "Too Short!")
@@ -24,36 +25,64 @@ const validationSchema = Yup.object().shape({
       "Password must include an uppercase letter, number, and symbol"
     )
     .required("Password is required"),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("password"), null], "Passwords must match")
+    .required("Confirm Password is required"),
   agreement: Yup.boolean().oneOf(
     [true],
     "You must agree to the terms and conditions"
   ),
 });
 
+// Initial form values
+const initialValues = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+  agreement: false,
+};
+
 export default function EmailSignUp({ navigation }) {
-  // Function to save data into AsyncStorage
+  // Function to save user data to AsyncStorage
   const saveToAsyncStorage = async (data) => {
     try {
       await AsyncStorage.setItem("userData", JSON.stringify(data));
-      alert("Data saved successfully!");
+      console.log("User data saved successfully:", data);
+      alert("Registration successful!");
+      // You can add navigation here if needed
+      // navigation.navigate('NextScreen');
     } catch (error) {
-      console.error("Error saving data to AsyncStorage:", error);
+      console.error("Error saving data:", error);
+      alert("Registration failed. Please try again.");
     }
   };
 
+  // Custom Input component to reduce repetition
+  const FormInput = ({ field, placeholder, secureTextEntry = false }) => (
+    <>
+      <TextInput
+        style={styles.input}
+        placeholder={placeholder}
+        onChangeText={field.handleChange}
+        onBlur={field.handleBlur}
+        value={field.value}
+        secureTextEntry={secureTextEntry}
+      />
+      {field.touched && field.error && (
+        <Text style={styles.error}>{field.error}</Text>
+      )}
+    </>
+  );
+
   return (
     <Formik
-      initialValues={{
-        firstName: "",
-        lastName: "",
-        email: "",
-        password: "",
-        agreement: false,
-      }}
+      initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={(values) => {
-        console.log(values);
-        saveToAsyncStorage(values); // Save the form data
+        console.log("Form submitted:", values);
+        saveToAsyncStorage(values);
       }}
     >
       {({
@@ -68,56 +97,73 @@ export default function EmailSignUp({ navigation }) {
         <View style={styles.container}>
           <Text style={styles.title}>Sign Up</Text>
 
-          <TextInput
-            style={styles.input}
+          {/* First Name Input */}
+          <FormInput
+            field={{
+              handleChange: handleChange("firstName"),
+              handleBlur: handleBlur("firstName"),
+              value: values.firstName,
+              touched: touched.firstName,
+              error: errors.firstName,
+            }}
             placeholder="First Name"
-            onChangeText={handleChange("firstName")}
-            onBlur={handleBlur("firstName")}
-            value={values.firstName}
           />
-          {touched.firstName && errors.firstName && (
-            <Text style={styles.error}>{errors.firstName}</Text>
-          )}
 
-          <TextInput
-            style={styles.input}
+          {/* Last Name Input */}
+          <FormInput
+            field={{
+              handleChange: handleChange("lastName"),
+              handleBlur: handleBlur("lastName"),
+              value: values.lastName,
+              touched: touched.lastName,
+              error: errors.lastName,
+            }}
             placeholder="Last Name"
-            onChangeText={handleChange("lastName")}
-            onBlur={handleBlur("lastName")}
-            value={values.lastName}
           />
-          {touched.lastName && errors.lastName && (
-            <Text style={styles.error}>{errors.lastName}</Text>
-          )}
 
-          <TextInput
-            style={styles.input}
+          {/* Email Input */}
+          <FormInput
+            field={{
+              handleChange: handleChange("email"),
+              handleBlur: handleBlur("email"),
+              value: values.email,
+              touched: touched.email,
+              error: errors.email,
+            }}
             placeholder="Email"
-            keyboardType="email-address"
-            onChangeText={handleChange("email")}
-            onBlur={handleBlur("email")}
-            value={values.email}
           />
-          {touched.email && errors.email && (
-            <Text style={styles.error}>{errors.email}</Text>
-          )}
 
-          <TextInput
-            style={styles.input}
+          {/* Password Input */}
+          <FormInput
+            field={{
+              handleChange: handleChange("password"),
+              handleBlur: handleBlur("password"),
+              value: values.password,
+              touched: touched.password,
+              error: errors.password,
+            }}
             placeholder="Password"
             secureTextEntry
-            onChangeText={handleChange("password")}
-            onBlur={handleBlur("password")}
-            value={values.password}
           />
-          {touched.password && errors.password && (
-            <Text style={styles.error}>{errors.password}</Text>
-          )}
 
+          {/* Confirm Password Input */}
+          <FormInput
+            field={{
+              handleChange: handleChange("confirmPassword"),
+              handleBlur: handleBlur("confirmPassword"),
+              value: values.confirmPassword,
+              touched: touched.confirmPassword,
+              error: errors.confirmPassword,
+            }}
+            placeholder="Confirm Password"
+            secureTextEntry
+          />
+
+          {/* Agreement Checkbox */}
           <View style={styles.checkboxContainer}>
             <Checkbox
               status={values.agreement ? "checked" : "unchecked"}
-              onPress={() => setFieldValue("agreement", !values.agreement)} // Update the agreement value
+              onPress={() => setFieldValue("agreement", !values.agreement)}
               color="#46B9B0"
             />
             <Text style={styles.checkboxLabel}>
@@ -128,6 +174,7 @@ export default function EmailSignUp({ navigation }) {
             <Text style={styles.error}>{errors.agreement}</Text>
           )}
 
+          {/* Submit Button */}
           <TouchableOpacity style={styles.submit} onPress={handleSubmit}>
             <Text style={styles.submitButtonText}>Sign Up</Text>
           </TouchableOpacity>
@@ -137,6 +184,7 @@ export default function EmailSignUp({ navigation }) {
   );
 }
 
+// Styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -160,6 +208,7 @@ const styles = StyleSheet.create({
   error: {
     color: "red",
     marginBottom: 10,
+    fontSize: 12,
   },
   checkboxContainer: {
     flexDirection: "row",
@@ -170,7 +219,7 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   submit: {
-    backgroundColor: "#46B9B0", // Set background color to #46B9B0
+    backgroundColor: "#46B9B0",
     padding: 15,
     borderRadius: 10,
     alignItems: "center",
@@ -179,5 +228,6 @@ const styles = StyleSheet.create({
   submitButtonText: {
     color: "#fff",
     fontSize: 16,
+    fontWeight: "bold",
   },
 });

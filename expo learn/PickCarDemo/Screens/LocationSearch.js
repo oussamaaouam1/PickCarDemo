@@ -13,11 +13,26 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import useLocation from "../hooks/useLocation";
 import { useNavigation } from "@react-navigation/native";
 
-
 export default function LocationSearch() {
   const navigation = useNavigation(); // Access the navigation object
 
-  const { latitude, longitude, errorMsg } = useLocation();
+  const { latitude, longitude, errorMsg, getUserLocation } = useLocation();
+
+  const handleCurrentLocation = async () => {
+    const locationData = await getUserLocation();
+    if (locationData) {
+      console.log("Location Data:", {
+        address: locationData.address,
+        latitude: locationData.latitude,
+        longitude: locationData.longitude,
+      });
+      navigation.navigate("MainScreen", {
+        selectedLocation: locationData.address,
+      });
+    } else {
+      console.log("Failed to get location data");
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -37,7 +52,10 @@ export default function LocationSearch() {
         />
       </View>
 
-      <TouchableOpacity style={styles.LocationBtn}>
+      <TouchableOpacity
+        style={styles.LocationBtn}
+        onPress={handleCurrentLocation}
+      >
         <Ionicons name="locate-outline" size={20} color="#46B9B0" />
         <Text style={styles.curLoc}>Current location</Text>
       </TouchableOpacity>
@@ -84,7 +102,6 @@ const styles = StyleSheet.create({
     paddingTop: 40,
   },
   curLoc: {
-    marginLeft:20,
-  }
-  
+    marginLeft: 20,
+  },
 });

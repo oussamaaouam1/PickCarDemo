@@ -1,32 +1,47 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "react-native";
-import { View, StyleSheet, Text,TouchableOpacity } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import LocationIcon from "../assets/SVGs/undraw_my_current_location_re_whmt (1).svg"
+import LocationIcon from "../assets/SVGs/undraw_my_current_location_re_whmt (1).svg";
+import DateModalComponent from "./DateModalComponent";
 
+export default function MainScreen({ navigation, route }) {
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [selectedDates, setSelectedDates] = useState([null, null]);
+  const [currentLocation, setCurrentLocation] = useState("");
 
-
-
-
-export default function MainScreen({navigation}) {
-
+  useEffect(() => {
+    if (route.params?.selectedLocation) {
+      setCurrentLocation(route.params.selectedLocation);
+    }
+  }, [route.params?.selectedLocation]);
 
   return (
     <View style={styles.container}>
       <View style={styles.SearchBar}>
         <View>
-          <TouchableOpacity style={styles.searchbox}
-          onPress={()=>{navigation.navigate("LocationSearch")}}
+          <TouchableOpacity
+            style={styles.searchbox}
+            onPress={() => {
+              navigation.navigate("LocationSearch");
+            }}
           >
             <Ionicons name="location-outline" size={20} color="#46B9B0" />
-            <Text style={styles.text}>Where?</Text>
+            <Text style={styles.text}>{currentLocation || "Where?"}</Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.divider}>
-          <TouchableOpacity style={styles.searchbox}>
+          <TouchableOpacity
+            style={styles.searchbox}
+            onPress={() => setModalVisible(true)}
+          >
             <Ionicons name="calendar-outline" size={20} color="#46B9B0" />
-            <Text style={styles.text}>When?</Text>
+            <Text style={styles.text}>
+              {selectedDates[0] && selectedDates[1]
+                ? `${selectedDates[0]} to ${selectedDates[1]}`
+                : "When?"}
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -37,7 +52,14 @@ export default function MainScreen({navigation}) {
         Try Unable your location services to access you current location or type
         an address
       </Text>
-    
+
+      <DateModalComponent
+        isVisible={isModalVisible}
+        onClose={() => setModalVisible(false)}
+        onSelectDates={(dates) => {
+          setSelectedDates(dates);
+        }}
+      />
     </View>
   );
 }
@@ -52,42 +74,45 @@ const styles = StyleSheet.create({
   SearchBar: {
     backgroundColor: "white",
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "column",
     alignContent: "center",
     justifyContent: "space-between",
-    paddingVertical: 19,
-    paddingHorizontal: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 15,
     width: "90%",
     borderColor: "grey",
     borderRadius: 12,
-    //-------------android shadow------------------
     elevation: 10,
-    // --------------iOS Shadow--------------------
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 }, // Downward shadow
-    shadowOpacity: 0.1, // Light opacity
-    shadowRadius: 8, // Soft shadow edges
-    position:"absolute",
-    top:50,
-    
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    position: "absolute",
+    top: 50,
   },
   searchbox: {
     display: "flex",
     flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 8,
   },
   divider: {
-    borderLeftWidth: 1,
-    borderLeftColor: "grey",
-    paddingLeft: 10,
-    paddingRight:12,
+    borderTopWidth: 1,
+    borderTopColor: "grey",
+    marginTop: 8,
+    paddingTop: 8,
   },
-  LocationIcon:{
-  marginBottom:20,
-
+  text: {
+    marginLeft: 8,
+    flex: 1,
+    fontSize: 14,
   },
-  locationtxt:{
-    fontFamily:"Mina",
-    width:"80%",
-    textAlign:"center",
-  }
+  LocationIcon: {
+    marginBottom: 20,
+  },
+  locationtxt: {
+    fontFamily: "Mina",
+    width: "80%",
+    textAlign: "center",
+  },
 });
