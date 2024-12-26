@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  Alert,
 } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -45,45 +46,45 @@ const initialValues = {
 };
 
 export default function EmailSignUp({ navigation }) {
-  // Function to save user data to AsyncStorage
-  const saveToAsyncStorage = async (data) => {
+  const handleSignUp = async (values) => {
     try {
-      await AsyncStorage.setItem("userData", JSON.stringify(data));
-      console.log("User data saved successfully:", data);
-      alert("Registration successful!");
-      // You can add navigation here if needed
-      // navigation.navigate('NextScreen');
+      console.log("Starting sign up process...");
+
+      // Save user data to AsyncStorage
+      const userData = {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        password: values.password,
+      };
+
+      await AsyncStorage.setItem("userData", JSON.stringify(userData));
+      console.log("User data saved successfully");
+
+      // Show success message
+      Alert.alert("Success", "Account created successfully!", [
+        {
+          text: "OK",
+          onPress: () => {
+            // Navigate to MainTabs after user acknowledges
+            navigation.reset({
+              index: 0,
+              routes: [{ name: "MainTabs" }],
+            });
+          },
+        },
+      ]);
     } catch (error) {
-      console.error("Error saving data:", error);
-      alert("Registration failed. Please try again.");
+      console.error("Error during sign up:", error);
+      Alert.alert("Error", "Registration failed. Please try again.");
     }
   };
-
-  // Custom Input component to reduce repetition
-  const FormInput = ({ field, placeholder, secureTextEntry = false }) => (
-    <>
-      <TextInput
-        style={styles.input}
-        placeholder={placeholder}
-        onChangeText={field.handleChange}
-        onBlur={field.handleBlur}
-        value={field.value}
-        secureTextEntry={secureTextEntry}
-      />
-      {field.touched && field.error && (
-        <Text style={styles.error}>{field.error}</Text>
-      )}
-    </>
-  );
 
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={(values) => {
-        console.log("Form submitted:", values);
-        saveToAsyncStorage(values);
-      }}
+      onSubmit={handleSignUp}
     >
       {({
         handleChange,
@@ -98,66 +99,68 @@ export default function EmailSignUp({ navigation }) {
           <Text style={styles.title}>Sign Up</Text>
 
           {/* First Name Input */}
-          <FormInput
-            field={{
-              handleChange: handleChange("firstName"),
-              handleBlur: handleBlur("firstName"),
-              value: values.firstName,
-              touched: touched.firstName,
-              error: errors.firstName,
-            }}
+          <TextInput
+            style={styles.input}
             placeholder="First Name"
+            onChangeText={handleChange("firstName")}
+            onBlur={handleBlur("firstName")}
+            value={values.firstName}
           />
+          {touched.firstName && errors.firstName && (
+            <Text style={styles.error}>{errors.firstName}</Text>
+          )}
 
           {/* Last Name Input */}
-          <FormInput
-            field={{
-              handleChange: handleChange("lastName"),
-              handleBlur: handleBlur("lastName"),
-              value: values.lastName,
-              touched: touched.lastName,
-              error: errors.lastName,
-            }}
+          <TextInput
+            style={styles.input}
             placeholder="Last Name"
+            onChangeText={handleChange("lastName")}
+            onBlur={handleBlur("lastName")}
+            value={values.lastName}
           />
+          {touched.lastName && errors.lastName && (
+            <Text style={styles.error}>{errors.lastName}</Text>
+          )}
 
           {/* Email Input */}
-          <FormInput
-            field={{
-              handleChange: handleChange("email"),
-              handleBlur: handleBlur("email"),
-              value: values.email,
-              touched: touched.email,
-              error: errors.email,
-            }}
+          <TextInput
+            style={styles.input}
             placeholder="Email"
+            onChangeText={handleChange("email")}
+            onBlur={handleBlur("email")}
+            value={values.email}
+            keyboardType="email-address"
+            autoCapitalize="none"
           />
+          {touched.email && errors.email && (
+            <Text style={styles.error}>{errors.email}</Text>
+          )}
 
           {/* Password Input */}
-          <FormInput
-            field={{
-              handleChange: handleChange("password"),
-              handleBlur: handleBlur("password"),
-              value: values.password,
-              touched: touched.password,
-              error: errors.password,
-            }}
+          <TextInput
+            style={styles.input}
             placeholder="Password"
+            onChangeText={handleChange("password")}
+            onBlur={handleBlur("password")}
+            value={values.password}
             secureTextEntry
           />
+          {touched.password && errors.password && (
+            <Text style={styles.error}>{errors.password}</Text>
+          )}
 
           {/* Confirm Password Input */}
-          <FormInput
-            field={{
-              handleChange: handleChange("confirmPassword"),
-              handleBlur: handleBlur("confirmPassword"),
-              value: values.confirmPassword,
-              touched: touched.confirmPassword,
-              error: errors.confirmPassword,
-            }}
+          <TextInput
+            style={styles.input}
             placeholder="Confirm Password"
+            onChangeText={handleChange("confirmPassword")}
+            onBlur={handleBlur("confirmPassword")}
+            value={values.confirmPassword}
             secureTextEntry
           />
+          {touched.confirmPassword && errors.confirmPassword && (
+            <Text style={styles.error}>{errors.confirmPassword}</Text>
+          )}
 
           {/* Agreement Checkbox */}
           <View style={styles.checkboxContainer}>

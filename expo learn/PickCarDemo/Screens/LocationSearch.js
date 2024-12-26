@@ -26,8 +26,9 @@ export default function LocationSearch() {
         latitude: locationData.latitude,
         longitude: locationData.longitude,
       });
-      navigation.navigate("MainScreen", {
-        selectedLocation: locationData.address,
+      navigation.navigate("MainTabs", {
+        screen: "Search", // This matches the name in BottomTabNavigator
+        params: { selectedLocation: locationData.address },
       });
     } else {
       console.log("Failed to get location data");
@@ -42,9 +43,13 @@ export default function LocationSearch() {
       <View style={styles.searchBar}>
         <TouchableOpacity
           style={styles.submit}
-          onPress={() => navigation.navigate("MainScreen")}
+          onPress={() => {
+            navigation.navigate("MainTabs", {
+              screen: "Search", // This matches the name in BottomTabNavigator
+            });
+          }}
         >
-          <Ionicons name="close-outline" size={35} color="#46B9B0" />
+          <Ionicons name="close" size={27} color="#46B9B0" />
         </TouchableOpacity>
         <TextInput
           style={styles.textInput}
@@ -56,7 +61,7 @@ export default function LocationSearch() {
         style={styles.LocationBtn}
         onPress={handleCurrentLocation}
       >
-        <Ionicons name="locate-outline" size={20} color="#46B9B0" />
+        <Ionicons name="locate-outline" size={24} color="#46B9B0" />
         <Text style={styles.curLoc}>Current location</Text>
       </TouchableOpacity>
     </SafeAreaView>

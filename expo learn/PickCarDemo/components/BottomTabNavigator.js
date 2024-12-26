@@ -2,10 +2,9 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 
-import HomeScreen from "../Screens/HomeScreen";
 import MainScreen from "../Screens/MainScreen";
+import RentalsScreen from "../Screens/RentalsScreen";
 import Account from "../Screens/LogAndSign";
-
 
 const Tab = createBottomTabNavigator();
 
@@ -28,8 +27,8 @@ const BottomTabNavigator = () => {
             iconName = "search-outline";
           } else if (route.name === "Account") {
             iconName = "person-circle-outline";
-          } else if (route.name === "Home") {
-            iconName = "home-outline";
+          } else if (route.name === "Rentals") {
+            iconName = "car-outline";
           }
           return <Ionicons name={iconName} size={size} color={color} />;
         },
@@ -38,16 +37,13 @@ const BottomTabNavigator = () => {
       })}
     >
       <Tab.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{
-          headerShown: false,
-          tabBarStyle: { display: "none" }, // Hides the bottom tab
-        }}
-      />
-      <Tab.Screen
         name="Search"
         component={MainScreen}
+        options={{ headerShown: false }}
+      />
+      <Tab.Screen
+        name="Rentals"
+        component={RentalsScreen}
         options={{ headerShown: false }}
       />
       <Tab.Screen
@@ -55,16 +51,6 @@ const BottomTabNavigator = () => {
         component={Account}
         options={{ headerShown: false }}
       />
-      {/* <Tab.Screen
-        name="SignUpScreen"
-        component={SignUpScreen}
-        options={{ headerShown: false }}
-      />
-      <Tab.Screen
-        name="LogInScreen"
-        component={LogInScreen}
-        options={{ headerShown: false }}
-      /> */}
     </Tab.Navigator>
   );
 };
