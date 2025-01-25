@@ -12,7 +12,7 @@ const DateModalComponent = ({ isVisible, onClose, onSelectDates }) => {
     >
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
-          <Text style={styles.modalTitle}>Select Dates</Text>
+          <Text style={styles.modalTitle}>Select Date</Text>
           <DateRangePicker
             onChange={(dates) => {
               onSelectDates(dates);
